@@ -1,0 +1,23 @@
+{
+  "name": "client_electron",
+  "version": "1.0.0",
+  "description": "",
+  "main": "./app/appMain/main/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "startM": "electron .",
+    "startR": "cd ./app/src/appmain && npm start"
+  },
+  "author": "myuan",
+  "license": "ISC",
+  "devDependencies": {
+    "electron": "^13.1.7",
+    "electron-builder": "^22.11.7",
+    "electron-rebuild": "^2.3.5"
+  },
+  "dependencies": {
+    "electron-is-dev": "^2.0.0",
+    "robotjs": "^0.6.0",
+    "vkey": "^1.0.1"
+  }
+}

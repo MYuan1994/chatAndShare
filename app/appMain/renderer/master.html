@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>接收端</title>
+</head>
+<style>
+    *{margin: 0;}
+    #view{
+        width: 100vw;
+        height:100vh;
+    }
+    #viewChat,#viewDesktop{
+        width: 50vw;
+        height:100vh;
+        /* object-fit: fill; */
+    }
+</style>
+<body>
+    <div id="view">
+        <video id="viewChat"></video>
+        <video id="viewDesktop"></video>
+    </div>
+    <button>关闭页面</button>
+    <button>开启视频</button>
+    <button>桌面画面</button>
+</body>
+<script>
+    require('./ipc/peer-puppet.js')
+</script>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>请求端</title>
+</head>
+<style>
+    #view{
+        width:100vw;
+        height: calc(100vh - 50px);
+    }
+    #live{
+        width:30vw;
+        height: calc(100vh - 50px);
+    }
+    #share{
+        width:68vw;
+        height: calc(100vh - 50px);
+    }
+    #tool{
+        height: 50px;
+    }
+</style>
+<body>
+    <div id="view">
+        <video id="live" style="transform: scale(-1, 1);"></video>
+        <video id="share"></video>
+    </div>
+    <div id="tool">
+        <button onclick="closeWin('zmyMain')">closeWin</button>
+        <button onclick="videoChatOn()">视频</button>
+        <button onclick="desktopShareOn('zmy')">分享桌面画面</button>
+        <button onclick="p2p()">link</button>
+    </div>
+</body>
+<script src="./renderer.js"></script>
+<script>
+    function videoChatOn(){
+        videoChat(document.getElementById('live'));
+    }
+    function desktopShareOn(){
+        desktopShare(document.getElementById('share'));
+    }
+</script>
+</html>
