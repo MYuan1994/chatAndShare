@@ -1,15 +1,19 @@
-const { BrowserWindow,ipcMain } = require('electron');
+const { BrowserWindow,ipcMain, app } = require('electron');
 const electronIsDev=require('electron-is-dev');
 const path=require('path')
 const os =require('os');
 
-function createwindow(args,appname){
+
+let appList={};
+appList.list=new Map();
+
+
+appList.createwindow=(args,appname)=>{
     let win=new BrowserWindow(args);
-    let win2=new BrowserWindow(args);
+    // let win2=new BrowserWindow(args);
     if(electronIsDev){
         // win.loadURL("http://localhost:3000");
-        win2.loadFile(path.resolve(__dirname,'../renderer/master.html'));
-        win.loadFile(path.resolve(__dirname,'../renderer/index.html'));
+        win.loadFile(path.resolve(__dirname,'../renderer/login.html'));
     }else{
         win.loadFile(path.resolve(__dirname,'../renderer/index.html'))
     }
@@ -19,10 +23,21 @@ function createwindow(args,appname){
             win.close();
         })
     })
+    //从缓存加载
+    win.users=[];
 
-    return win;
+    ipcMain.handle('getUserList',()=>{
+        let res=win.users;
+        return res;
+    })
+
+    appList.list.set(appname,win);
 }
 
-module.exports={createwindow}
+appList.closeWin=(appname)=>{
+    appList.list.get(appname).close();
+}
+
+module.exports={appList}
 
 

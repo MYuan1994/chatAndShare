@@ -1,11 +1,14 @@
-const { app,ipcMain } = require('electron');
-const {createwindow}=require('./window');
+const { app,ipcMain,Notification } = require('electron');
+const {appList}=require('./window');
+const {createConnection}=require('./linkServer')
 
-let appList=[];
+
+let connectToServer;
+
 //create window,tray
 app.on("ready",()=>{
     
-    let win=createwindow({
+    appList.createwindow({
         width:800,
         height:600,
         webPreferences:{
@@ -13,12 +16,29 @@ app.on("ready",()=>{
             contextIsolation:false,
             enableRemoteModule: true,
         }
-    },"zmyMain");
+    },"Main");
 
-    appList.push("zmyMain",win);
-    
+    try {
+        connectToServer=createConnection('ws','127.0.0.1',8010);
+        appList.wssconnect=connectToServer;
+    } catch (error) {
+        console.error(error)
+    }
 
-    require('./robot.js')
+
+    ipcMain.handle('login',async(event,username,password)=>{
+        let res=await new Promise((resolve,reject)=>{
+            connectToServer.send(JSON.stringify({action:'login','username':username,'password':password}));
+            resolve();
+        })
+    })
+    ipcMain.handle('linkTo',async(event,type,username,SDP)=>{
+        let res=await new Promise((resolve,reject)=>{
+            connectToServer.send(JSON.stringify({action:'linkTo',type:type,to:username,SDP:SDP}));
+            resolve();
+        })
+    })
+    // require('./robot.js')
 
 
     // console.log(appList);

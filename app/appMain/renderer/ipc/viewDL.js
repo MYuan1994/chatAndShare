@@ -1,5 +1,6 @@
 const EventEmitter = require('events');
 const { ipcRenderer, desktopCapturer } = require('electron');
+// const { appList } = require('../../main/window');
 
 const peer = new EventEmitter();
 
@@ -30,7 +31,7 @@ peer.on('add-stream', (stream, DesktopDom) => {
 })
 
 //视频通话
-function linkVedioChat(liveDom) {
+function linkVedioChat(username,myView,objView) {
     navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
@@ -38,11 +39,14 @@ function linkVedioChat(liveDom) {
             height: { ideal: 400, min: 300, max: 600 },
             frameRate: { ideal: 20, min: 10, max: 30 }
         }
-    }).then(stream => {
-        liveDom.srcObject = stream;
-        liveDom.onloadedmetadata = function () {
-            liveDom.play();
+    }).then(async(stream) => {
+        myView.srcObject = stream;
+        myView.onloadedmetadata = function () {
+            myView.play();
         }
+        let offer=await createOffer();
+        ipcRenderer.invoke('linkTo','offer',username,JSON.stringify(offer))
+        
     });
 }
 
@@ -74,9 +78,10 @@ async function createOffer() {
         offerToReceiveVideo: true
     })
     await pc.setLocalDescription(offer)
-    console.log('my offer is :', JSON.stringify(offer));
+    // console.log('my offer is :', JSON.stringify(offer));
 
-    return pc.localDescription;
+    // return pc.localDescription;
+    return offer;
 }
 
 async function setRemote(answer) {

@@ -26,9 +26,13 @@
 </style>
 <body>
     <div id="view">
-        <video id="live" style="transform: scale(-1, 1);"></video>
-        <video id="share"></video>
+        <video id="myView" style="transform: scale(-1, 1);"></video>
+        <video id="objView" style="transform: scale(-1, 1);"></video>
+
     </div>
+    <ul id='userList'>
+
+    </ul>
     <div id="tool">
         <button onclick="closeWin('zmyMain')">closeWin</button>
         <button onclick="videoChatOn()">视频</button>
@@ -38,9 +42,30 @@
 </body>
 <script src="./renderer.js"></script>
 <script>
-    function videoChatOn(){
-        videoChat(document.getElementById('live'));
+    window.onload=()=>{
+        let users=getUsers();
+
+        users.then(res=>{
+            res.forEach(user => {
+                let userLi=document.createElement('li');
+                userLi.innerHTML=`<div>用户名：${user.username}<button onclick='linkTo("${user.username}")'>🔗连接</button></div>`
+                document.getElementById('userList').appendChild(userLi)
+            });
+        }).catch(err=>{
+            console.error(err)
+        })
     }
+
+    function linkTo(username){
+        let myView=document.getElementById('myView')
+        let objView=document.getElementById('objView')
+        videoChat(username,myView,objView)
+    }
+
+
+    // function videoChatOn(){
+    //     videoChat(document.getElementById('live'));
+    // }
     function desktopShareOn(){
         desktopShare(document.getElementById('share'));
     }
