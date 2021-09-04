@@ -14,7 +14,6 @@ function handleOffer(data){
     notic.on('action',()=>{
         console.log('connect')
         let win=appList.list.get('Main');
-        console.log(data.SDP);
         win.webContents.send('accept-offer',data.SDP);
     })
     notic.on('close',()=>{

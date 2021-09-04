@@ -4,19 +4,19 @@ const {linkVedioChat,getScreenStream}=require('./ipc/viewDL');
 
 let pc;
 
-ipcRenderer.once('accept-offer',(event,SDP)=>{
+ipcRenderer.once('accept-offer',async(event,SDP)=>{
     pc=new window.RTCPeerConnection();
-    pc.setRemoteDescription(SDP);
-
-    let answer=await pc.createAnswer;
+    pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(SDP)));
+    
+    let answer=await pc.createAnswer();
     pc.setLocalDescription(answer)
-
+    
     ipcRenderer.invoke('linkTo','answer','zmy',JSON.stringify(answer));
 
 });
 
 ipcRenderer.once('accept-answer',(event,SDP)=>{
-    pc.setRemoteDescription(SDP);
+    pc.setRemoteDescription(new RTCSessionDescription(JSON.parse(SDP)));
 });
 
 
