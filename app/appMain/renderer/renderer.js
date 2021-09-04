@@ -1,8 +1,22 @@
 const { ipcRenderer } = require('electron');
-const {linkVedioChat,getScreenStream}=require('./ipc/viewDL')
+const MyPeerConnection=require('./ipc/RTCPeerConnection')
+const {linkVedioChat,getScreenStream}=require('./ipc/viewDL');
 
-ipcRenderer.once('accept-vChat',(event,SDP)=>{
-    alert(JSON.stringify(SDP));
+let pc;
+
+ipcRenderer.once('accept-offer',(event,SDP)=>{
+    pc=new window.RTCPeerConnection();
+    pc.setRemoteDescription(SDP);
+
+    let answer=await pc.createAnswer;
+    pc.setLocalDescription(answer)
+
+    ipcRenderer.invoke('linkTo','answer','zmy',JSON.stringify(answer));
+
+});
+
+ipcRenderer.once('accept-answer',(event,SDP)=>{
+    pc.setRemoteDescription(SDP);
 });
 
 
@@ -15,13 +29,15 @@ function closeWin(id){
 
 function videoChat(username,myView,objView){
 
+    pc = new MyPeerConnection(objView);
 
-    linkVedioChat(username,myView,objView);
+    pc.createOfferSDP().then((offer)=>{
+        ipcRenderer.invoke('linkTo','offer',username,JSON.stringify(offer));
+    })
+
+    linkVedioChat(myView,pc);
 }
 
-function videoChat(username,myView,objView){
-    linkVedioChat(username,myView,objView);
-}
 
 
 function desktopShare(viewDom){

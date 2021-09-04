@@ -31,7 +31,7 @@ peer.on('add-stream', (stream, DesktopDom) => {
 })
 
 //视频通话
-function linkVedioChat(username,myView,objView) {
+function linkVedioChat(myView,pc) {
     navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
@@ -44,9 +44,7 @@ function linkVedioChat(username,myView,objView) {
         myView.onloadedmetadata = function () {
             myView.play();
         }
-        let offer=await createOffer();
-        ipcRenderer.invoke('linkTo','offer',username,JSON.stringify(offer))
-        
+        pc.addStream(stream);
     });
 }
 
@@ -72,27 +70,5 @@ async function addIceCandidate(candidate) {
 }
 window.addIceCandidate=addIceCandidate;
 
-async function createOffer() {
-    const offer = await pc.createOffer({
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true
-    })
-    await pc.setLocalDescription(offer)
-    // console.log('my offer is :', JSON.stringify(offer));
 
-    // return pc.localDescription;
-    return offer;
-}
-
-async function setRemote(answer) {
-    await pc.setRemoteDescription(answer)
-}
-window.setRemote = setRemote
-pc.onaddstream = function (e) {
-
-    console.log(e);
-
-    peer.emit('add-stream', e.stream, document.getElementById('share'));
-}
-
-module.exports = { linkVedioChat, getScreenStream, createOffer }
+module.exports = { linkVedioChat, getScreenStream }

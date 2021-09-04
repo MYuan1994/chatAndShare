@@ -15,13 +15,19 @@ function handleOffer(data){
         console.log('connect')
         let win=appList.list.get('Main');
         console.log(data.SDP);
-        win.webContents.send('accept-vChat',data.SDP);
+        win.webContents.send('accept-offer',data.SDP);
     })
     notic.on('close',()=>{
         console.log('reject');
         let win=appList.list.get('Main');
-        win.webContents.send('accept-vChat',data.SDP);
+        win.webContents.send('accept-offer',data.SDP);
     })
 }
 
-module.exports={handleOffer}
+function handleAnswer(data){
+    console.log('success link!')
+    let win=appList.list.get('Main');
+    win.webContents.send('accept-answer',data.SDP);
+}
+
+module.exports={handleOffer,handleAnswer}

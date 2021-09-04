@@ -1,6 +1,6 @@
 const WebSocket=require('ws');
 const {handleLogin}=require('./login')
-const {handleOffer}=require('./call')
+const {handleOffer,handleAnswer}=require('./call')
 
 
 function createConnection(type,ip,port){
@@ -31,7 +31,7 @@ function connectWS(ip,port){
                     handleLogin(data);
                     break;
                 case 'linkTo':
-                    handleOffer(data);
+                    data.type==='offer'?handleOffer(data):handleAnswer(data)
                     break;
                 default:
                     console.log('other',data);
