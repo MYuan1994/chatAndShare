@@ -38,6 +38,12 @@ app.on("ready",()=>{
             resolve();
         })
     })
+    ipcMain.handle('exchangeCandidate',async(event,username,candidate)=>{
+        let res=await new Promise((resolve,reject)=>{
+            connectToServer.send(JSON.stringify({action:'exchangeCandidate',to:username,candidate:candidate}));
+            resolve();
+        })
+    })
     // require('./robot.js')
 
 

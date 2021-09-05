@@ -16,6 +16,11 @@ function handleOffer(data){
         let win=appList.list.get('Main');
         win.webContents.send('accept-offer',data.SDP);
     })
+    notic.on('click',()=>{
+        console.log('connect')
+        let win=appList.list.get('Main');
+        win.webContents.send('accept-offer',data.SDP);
+    })
     notic.on('close',()=>{
         console.log('reject');
         let win=appList.list.get('Main');
@@ -29,4 +34,9 @@ function handleAnswer(data){
     win.webContents.send('accept-answer',data.SDP);
 }
 
-module.exports={handleOffer,handleAnswer}
+function handleCandidate(data){
+    let win=appList.list.get('Main');
+    win.webContents.send('accept-candidate',data.candidate);
+}
+
+module.exports={handleOffer,handleAnswer,handleCandidate}

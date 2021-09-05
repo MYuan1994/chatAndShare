@@ -3,9 +3,9 @@ class MyPeerConnection extends window.RTCPeerConnection{
 
     constructor(recvDom) {
         super()
-        this.onicecandidate = function (e) {
-            // console.log(JSON.stringify(e.candidate))
-        }
+        // this.onicecandidate = (e)=> {
+        //     this.ownCandidate= e.candidate;
+        // }
         this.onaddstream = function (e) {
             peer.emit('add-stream', e.stream,recvDom);
         }

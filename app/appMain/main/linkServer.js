@@ -33,6 +33,9 @@ function connectWS(ip,port){
                 case 'linkTo':
                     data.type==='offer'?handleOffer(data):handleAnswer(data)
                     break;
+                case 'exchangeCandidate':
+                    handleCandidate(data);
+                    break;
                 default:
                     console.log('other',data);
             }
