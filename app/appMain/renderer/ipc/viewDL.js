@@ -31,7 +31,7 @@ peer.on('add-stream', (stream, DesktopDom) => {
 })
 
 //视频通话
-function linkVedioChat(myView,pc) {
+async function linkVedioChat(myView, pc) {
     navigator.mediaDevices.getUserMedia({
         audio: true,
         video: {
@@ -39,13 +39,22 @@ function linkVedioChat(myView,pc) {
             height: { ideal: 400, min: 300, max: 600 },
             frameRate: { ideal: 20, min: 10, max: 30 }
         }
-    }).then(async(stream) => {
-        myView.srcObject = stream;
-        myView.onloadedmetadata = function () {
-            myView.play();
-        }
+
+    }).then((stream) => {
+
         pc.addStream(stream);
-    });
+
+        // for(let track of stream.getTracks()){
+        //     pc.addTrack(track,stream);
+        // }
+
+        // myView.srcObject=stream;
+        // myView.onloadedmetadata=function(){
+        //     myView.play();
+        // }
+    })
+
+
 }
 
 
@@ -55,20 +64,20 @@ pc.onicecandidate = function (e) {
     console.log(JSON.stringify(e.candidate))
 }
 
-let candidates=[];
+let candidates = [];
 
 async function addIceCandidate(candidate) {
-    if(candidate){
+    if (candidate) {
         candidates.push(candidate);
     }
     if (pc.remoteDescription && pc.remoteDescription.type) {
-        for(let candidateTmp of candidates){
+        for (let candidateTmp of candidates) {
             await pc.addIceCandidate(new RTCIceCandidate(candidateTmp))
         }
-        candidates=[];
+        candidates = [];
     }
 }
-window.addIceCandidate=addIceCandidate;
+window.addIceCandidate = addIceCandidate;
 
 
 module.exports = { linkVedioChat, getScreenStream }

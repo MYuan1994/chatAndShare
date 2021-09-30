@@ -35,6 +35,7 @@ function handleAnswer(data){
 }
 
 function handleCandidate(data){
+    console.log(data)
     let win=appList.list.get('Main');
     win.webContents.send('accept-candidate',data.candidate);
 }

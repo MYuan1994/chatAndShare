@@ -7,39 +7,128 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>请求端</title>
 </head>
+<link href="../../../resource/css/font-awesome.min.css" rel="stylesheet">
 <style>
-    #view{
-        width:100vw;
-        height: calc(100vh - 50px);
+    html,body{
+        width: 100vw;
+        height: 100vh;
+        background: rgba(214, 214, 214, 0);
+        display: flex;
+        flex-direction: row;
+        margin: 0;
     }
-    #live{
-        width:30vw;
-        height: calc(100vh - 50px);
+    aside{
+        width: 55px;
+        background: #1e76a2;
+        -webkit-app-region: drag;
+        user-select: none;
+        display: flex;
+        flex-direction: column;
+        
     }
-    #share{
-        width:68vw;
-        height: calc(100vh - 50px);
+    aside .menu{
+        flex:1;
+        margin-top: 20px;
     }
-    #tool{
-        height: 50px;
+    aside .user{
+        height: 140px;
     }
+
+    aside menu{
+        list-style: none;
+        padding: 0;
+        text-align: center;
+    }
+    menu li{
+        color: #ddd;
+        font-size: 23px;
+        height: 40px;
+        margin: 13px 0;
+        transition: ease-in-out 0.3s;
+        cursor: pointer;
+    }
+    menu li:hover{
+        color: #FFF;
+        text-shadow: 0 0 2px #FFF;
+    }
+    menu li:active{
+        color: #22405a;
+        text-shadow: 0 0 5px #fff;
+    }
+
+    article{
+        flex: 1;
+        background: #EEE;
+        display: flex;
+        flex-direction: column;
+
+    }
+    .mainContext{
+        flex: 1;
+        display: flex;
+        flex-direction: row;
+    }
+    .mainContext nav{
+        width: 200px;
+        border-right: 1px solid #DDD;
+    }
+    .mainContext main{
+        flex: 1;
+
+    }
+    .toolBar{
+        /* background: #ddd;
+        height: 28px; */
+    }
+
+
 </style>
 <body>
-    <div id="view">
-        <video id="myView" muted style="transform: scale(-1, 1);"></video>
-        <video id="objView" style="transform: scale(-1, 1);"></video>
-
-    </div>
-    <ul id='userList'>
-
-    </ul>
-    <div id="tool">
-        <button onclick="closeWin('zmyMain')">closeWin</button>
-        <button onclick="videoChatOn()">视频</button>
-        <button onclick="desktopShareOn('zmy')">分享桌面画面</button>
-        <button onclick="p2p()">link</button>
-    </div>
+    <aside>
+        <div class='menu'>
+            <menu>
+                <li>
+                    <i class="fa fa-comment-o"></i>
+                </li>
+                <li>
+                    <i class="fa fa-address-book-o"></i>
+                </li>
+                <li>
+                    <i class="fa fa-cube"></i>
+                </li>
+                <li>
+                    <i class="fa fa-folder-open-o"></i>
+                </li>
+                <li>
+                    <i class="fa fa-tasks"></i>
+                </li>
+                <li>
+                    <i class="fa fa-th-large"></i>
+                </li>
+            </menu>
+        </div>
+        <div class='user'>
+            <menu>
+                <li>
+                    <i class="fa fa-id-badge"></i>
+                </li>
+                <li>
+                    <i id="closeWin" class="fa fa-gear fa-spin"></i>
+                </li>
+            </menu>
+        </div>
+    </aside>
+    <article>
+        <div class="toolBar">
+            <time></time>
+        </div>
+        <div class="mainContext">
+            <nav></nav>
+            <main></main> 
+        </div>
+    </article>
 </body>
+<script src="./ipc/login.js"></script>
 <script src="./renderer.js"></script>
 <script>
     window.onload=()=>{
@@ -56,6 +145,10 @@
         })
     }
 
+    function init(){
+        
+    }
+
     function linkTo(username){
         let myView=document.getElementById('myView')
         let objView=document.getElementById('objView')
@@ -63,11 +156,15 @@
     }
 
 
-    // function videoChatOn(){
-    //     videoChat(document.getElementById('live'));
-    // }
+    function videoChatOn(){
+        
+    }
     function desktopShareOn(){
         desktopShare(document.getElementById('share'));
     }
+
+    document.getElementById('closeWin').addEventListener('click',()=>{
+        closeLogin('Main');
+    });
 </script>
 </html>

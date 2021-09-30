@@ -32,6 +32,7 @@ appList.createwindow=(args,appname)=>{
     })
 
     appList.list.set(appname,win);
+    return win;
 }
 
 appList.closeWin=(appname)=>{

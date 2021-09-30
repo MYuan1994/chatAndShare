@@ -7,7 +7,8 @@ class MyPeerConnection extends window.RTCPeerConnection{
         //     this.ownCandidate= e.candidate;
         // }
         this.onaddstream = function (e) {
-            peer.emit('add-stream', e.stream,recvDom);
+            console.log('sssssss')
+            this.peer.emit('add-stream', e.stream,recvDom);
         }
 
         const peer = new EventEmitter();
@@ -26,7 +27,7 @@ class MyPeerConnection extends window.RTCPeerConnection{
             offerToReceiveVideo: true
         });
         await this.setLocalDescription(offer)
-        return await offer;
+        return await this.localDescription;
     }
 
     async setRemote(answer) {
