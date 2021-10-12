@@ -17,11 +17,8 @@
   },
   "dependencies": {
     "electron-is-dev": "^2.0.0",
-    "electron-linux-mips64el": "^10.1.0",
     "electron-store": "^8.0.0",
     "font-awesome": "^4.7.0",
-    "lndb": "0.0.3",
-    "robotjs": "^0.6.0",
     "vkey": "^1.0.1",
     "ws": "^8.2.1"
   }

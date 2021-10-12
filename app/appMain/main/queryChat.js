@@ -39,7 +39,7 @@ function initChat(userId) {
         })
     })
 
-    ipcMain.handle('getChatRecords', (event, {chatId, start, end}) => {
+    ipcMain.handle('getChatRecords', async(event, {chatId, start, end}) => {
 
         let chatTemp = new Store({
             name: chatId,
@@ -47,7 +47,7 @@ function initChat(userId) {
             cwd: `${app.getPath('userData')}/ChatCache/${userId}/recordList`
         })
 
-        return new Promise((resolve,reject)=>{
+        return await new Promise((resolve,reject)=>{
             resolve(chatTemp.get('records')?chatTemp.get('records'):[]);
         })
     })

@@ -52,14 +52,14 @@ app.on("ready",()=>{
                 })
             })
             
-            connectToServer=createConnection('ws','60.205.213.132',8010,user);
+            connectToServer=createConnection('ws','60.205.213.132',8011,user);
         } catch (error) {
             console.error(error)
         }
     })
     ipcMain.handle('visitHome',async(event)=>{
         try {
-            shell.openExternal("http://60.205.213.132:8010/control")
+            shell.openExternal("http://60.205.213.132:8011/control")
         } catch (error) {
             console.error(error)
         }
